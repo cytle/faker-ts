@@ -1,0 +1,22 @@
+{
+  "name": "json-schema-mock.ts",
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "test": "npm run build && mocha -t 5000 --require source-map-support/register dist/test",
+    "debug": "ts-node --inspect=19248 --debug-brk typescript-json-schema-cli.ts",
+    "run": "ts-node typescript-json-schema-cli.ts",
+    "build": "tsc -p .",
+    "lint": "tslint --project tsconfig.json -c tslint.json --exclude '**/*.d.ts'"
+  },
+  "dependencies": {
+    "json-schema-faker": "^0.5.0-rc17",
+    "typescript": "^3.5.2",
+    "typescript-json-schema": "^0.38.3"
+  },
+  "devDependencies": {
+    "@types/faker": "^4.1.5",
+    "@types/node": "^12.0.10",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0"
+  }
+}
