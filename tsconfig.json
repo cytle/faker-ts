@@ -9,7 +9,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "declaration": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "suppressImplicitAnyIndexErrors": true,
         "strictNullChecks": true,
         "noImplicitReturns": true,
@@ -25,7 +25,8 @@
     },
     "include": [
         "**/*.ts",
-        "node_modules/@types/**/*.d.ts"
+        "node_modules/@types/**/*.d.ts",
+        "json-schema-faker.d.ts"
     ],
     "exclude": [
         "node_modules",
