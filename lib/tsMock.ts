@@ -2,6 +2,10 @@ import * as ts from 'typescript';
 import { fakerGenerate } from './faker';
 import { tsSchema, tsSchemaGenerator, tsSchemaWatcher } from './tsSchema';
 
+export function tsMock(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
+  return fakerGenerate(tsSchema(files, jsonCompilerOptions, basePath));
+}
+
 export function tsMockService(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
   const getGenerator = tsSchemaWatcher(files, jsonCompilerOptions, basePath);
   return (symbol: string) => {
@@ -12,10 +16,6 @@ export function tsMockService(files: string[], jsonCompilerOptions?: ts.Compiler
     }
     throw new Error('mockGenerator is null');
   };
-}
-
-export function tsMock(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
-  return fakerGenerate(tsSchema(files, jsonCompilerOptions, basePath));
 }
 
 export function tsMockGenerator(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {

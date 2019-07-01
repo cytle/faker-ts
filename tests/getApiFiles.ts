@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import path from 'path';
 
 export const getApiFiles = () => {
-  const dir = path.resolve(__dirname, 'apis');
+  const dir = path.resolve(__dirname, 'mocks');
 
   return fs
     .readdirSync(dir)
