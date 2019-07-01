@@ -57,9 +57,11 @@ export function tsWatcher(rootFiles, options) {
     origPostProgramCreate!(program);
   };
 
-  // `createWatchProgram` creates an initial program, watches files, and updates
-  // the program over time.
-  ts.createWatchProgram(host);
+  setImmediate(() => {
+    // `createWatchProgram` creates an initial program, watches files, and updates
+    // the program over time.
+    ts.createWatchProgram(host);
+  });
   return emitter;
 }
 

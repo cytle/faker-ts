@@ -1,16 +1,15 @@
 import * as ts from 'typescript';
 import { fakerGenerate } from './faker';
-import { tsSchemaGenerator } from './tsSchema';
+import { tsSchemaWatcher } from './tsSchema';
 
-export function tsMockService(
-  configFileName: string,
-  optionsToExtend: ts.CompilerOptions | undefined): (symbol: string) => any;
-export function tsMockService(rootFiles: string[], options: ts.CompilerOptions): (symbol: string) => any;
-export function tsMockService(rootFiles, options) {
-  const getGenerator = tsSchemaGenerator(rootFiles, options);
+export function tsMockService(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
+  const getGenerator = tsSchemaWatcher(files, jsonCompilerOptions, basePath);
   return (symbol: string) => {
     const mockGenerator = getGenerator();
-    const schema = mockGenerator.getSchemaForSymbol(symbol);
-    return fakerGenerate(schema);
+    if (mockGenerator) {
+      const schema = mockGenerator.getSchemaForSymbol(symbol);
+      return fakerGenerate(schema);
+    }
+    throw new Error('mockGenerator is null');
   };
 }
