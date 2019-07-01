@@ -21,13 +21,20 @@ export function tsSchemaWatcher(files: string[], jsonCompilerOptions?: ts.Compil
       required: true,
   };
   let mockGenerator: JsonSchemaGenerator | null = null;
+  let program: ts.Program;
+
   tsWatcher(files, options).on('afterProgramCreate', (p: ts.SemanticDiagnosticsBuilderProgram) => {
-    const generator = buildGenerator(p.getProgram(), settings);
+    program = p.getProgram();
+    const generator = buildGenerator(program, settings);
     if (generator) {
       mockGenerator = generator;
     }
   });
-  return () => mockGenerator;
+  function getMockGenerator() {
+    return mockGenerator;
+  }
+  getMockGenerator.getProgram = () => program;
+  return getMockGenerator;
 }
 
 export function tsSchemaGenerator(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
