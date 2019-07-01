@@ -7,12 +7,12 @@ export function createServer(files: string[], jsonCompilerOptions?: ts.CompilerO
   const app = new Koa();
   const router = new Router();
 
-  const getMock = tsMockService(files, jsonCompilerOptions, basePath);
+  const mockGenerator = tsMockService(files, jsonCompilerOptions, basePath);
 
   router.get('/api', async (ctx) => {
     try {
       const { api = 'IFoo' } = ctx.query;
-      ctx.body = JSON.stringify(getMock(api));
+      ctx.body = JSON.stringify(mockGenerator(api));
     } catch (error) {
       ctx.body = { msg: error.message };
     }

@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import { buildGenerator, JsonSchemaGenerator, PartialArgs } from 'typescript-json-schema';
+import { buildGenerator, generateSchema, JsonSchemaGenerator, PartialArgs } from 'typescript-json-schema';
 import { tsWatcher } from './tsWatcher';
 
 function getTsOptions(jsonCompilerOptions: ts.CompilerOptions = {}, basePath: string = './') {
@@ -37,4 +37,13 @@ export function tsSchemaGenerator(files: string[], jsonCompilerOptions?: ts.Comp
   };
   const program = ts.createProgram(files, options);
   return buildGenerator(program, settings);
+}
+
+export function tsSchema(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
+  const options = getTsOptions(jsonCompilerOptions, basePath);
+  const settings: PartialArgs = {
+    required: true,
+  };
+  const program = ts.createProgram(files, options);
+  return generateSchema(program, '*', settings);
 }
