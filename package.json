@@ -2,6 +2,9 @@
   "name": "json-schema-mock.ts",
   "main": "dist/json-schema-mock.js",
   "typings": "dist/json-schema-mock.d.ts",
+  "bin": {
+    "tsmock": "dist/bin/tsmock.js"
+  },
   "scripts": {
     "prepublishOnly": "npm run build",
     "test": "npm run build && mocha -t 5000 --require source-map-support/register dist/tests",

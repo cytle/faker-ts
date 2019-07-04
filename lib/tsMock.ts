@@ -1,30 +1,54 @@
 import * as ts from 'typescript';
+import { buildGenerator, JsonSchemaGenerator } from 'typescript-json-schema';
 import { fakerGenerate } from './faker';
-import { tsSchema, tsSchemaGenerator, tsSchemaWatcher } from './tsSchema';
+import { tsWatcher } from './tsWatcher';
+import { getTsOptions } from './utils';
 
-export function tsMock(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
-  return fakerGenerate(tsSchema(files, jsonCompilerOptions, basePath));
+export class TsMocker {
+  public generator: JsonSchemaGenerator;
+  public program: ts.Program;
+  constructor(program?: ts.Program) {
+    if (program) {
+      this.setProgram(program);
+    }
+  }
+  public setProgram(program: ts.Program) {
+    const generator = buildGenerator(program, { required: true });
+    if (generator === null) {
+      throw new Error('generator is null');
+    }
+    this.program = program;
+    this.generator = generator;
+  }
+  public generateSchema(fullTypeName: string = '*', onlyIncludeFiles?: string[]) {
+    const { generator } = this;
+    if (fullTypeName === '*') {
+      return generator.getSchemaForSymbols(generator.getMainFileSymbols(this.program, onlyIncludeFiles));
+    } else {
+      return generator.getSchemaForSymbol(fullTypeName);
+    }
+  }
+  public generateMock(fullTypeName, onlyIncludeFiles?: string[]) {
+    return fakerGenerate(this.generateSchema(fullTypeName, onlyIncludeFiles));
+  }
 }
 
 export function tsMockService(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
-  const getGenerator = tsSchemaWatcher(files, jsonCompilerOptions, basePath);
-  return (symbol: string) => {
-    const mockGenerator = getGenerator();
-    if (mockGenerator) {
-      const schema = mockGenerator.getSchemaForSymbol(symbol);
-      return fakerGenerate(schema);
+  const mocker = new TsMocker();
+  const options = getTsOptions(jsonCompilerOptions, basePath);
+
+  tsWatcher(files, options).on('afterProgramCreate', (p: ts.SemanticDiagnosticsBuilderProgram) => {
+    try {
+      mocker.setProgram(p.getProgram());
+    } catch (error) {
+      console.error(error.meesage);
     }
-    throw new Error('mockGenerator is null');
-  };
+  });
+  return mocker;
 }
 
-export function tsMockGenerator(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
-  const mockGenerator = tsSchemaGenerator(files, jsonCompilerOptions, basePath);
-  return (symbol: string) => {
-    if (mockGenerator) {
-      const schema = mockGenerator.getSchemaForSymbol(symbol);
-      return fakerGenerate(schema);
-    }
-    throw new Error('mockGenerator is null');
-  };
+export function tsMock(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
+  const options = getTsOptions(jsonCompilerOptions, basePath);
+  const mocker = new TsMocker(ts.createProgram(files, options));
+  return mocker;
 }

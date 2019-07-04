@@ -2,15 +2,24 @@ import program from 'commander';
 import { createServer, tsMock } from '../json-schema-mock';
 
 program
-  .version('0.0.1')
-  .usage('[options] <file ...>')
-  .option('-w, --watch', 'Watch files')
-  .option('-p, --port', 'Server listen port', 3000)
-  .parse(process.argv);
+  .version('0.0.1');
 
-if (program.watch) {
-  createServer(program.args).listen(program.port);
-  console.log(`http://localhost:${program.port}`);
-} else {
-  console.log(JSON.stringify(tsMock(program.args), null, 2));
-}
+program
+  .command('mock <symbol> <file>')
+  .description('Mock data')
+  // tslint:disable-next-line:variable-name
+  .action((symbol, file) => {
+    const mocker = tsMock([file]);
+    console.log(JSON.stringify(mocker.generateMock(symbol), null, 2));
+  });
+
+program
+  .command('serve <file>')
+  .description('Http Mock Server')
+  .option('-p, --port', 'Server listen port', parseInt)
+  .action((file, { port = 3000 }) => {
+    console.log(`http://localhost:${port}`);
+    createServer([file]).listen(port);
+  });
+
+program.parse(process.argv);

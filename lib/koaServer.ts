@@ -1,21 +1,13 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import * as ts from 'typescript';
-import { fakerGenerate } from './faker';
-import { tsSchemaWatcher } from './tsSchema';
+import { tsMockService } from './tsMock';
 
 export function createServer(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
   const app = new Koa();
   const router = new Router();
 
-  const originGetGenerator = tsSchemaWatcher(files, jsonCompilerOptions, basePath);
-  const getGenerator = () => {
-    const generator = originGetGenerator();
-    if (!generator) {
-      throw new Error('mockGenerator is null');
-    }
-    return generator;
-  };
+  const mocker = tsMockService(files, jsonCompilerOptions, basePath);
 
   app.use(async (ctx, next) => {
     try {
@@ -25,22 +17,20 @@ export function createServer(files: string[], jsonCompilerOptions?: ts.CompilerO
     }
   });
 
-  router.get('/apis/:symbol', async (ctx) => {
-    const schema = getGenerator().getSchemaForSymbol(ctx.params.symbol);
-    ctx.body = fakerGenerate(schema);
+  router.get('/mocks/:symbol', async (ctx) => {
+    ctx.body = mocker.generateMock(ctx.params.symbol);
   });
 
   router.get('/schemas/:symbol', async (ctx) => {
-    ctx.body = getGenerator().getSchemaForSymbol(ctx.params.symbol);
+    ctx.body = mocker.generateSchema(ctx.params.symbol);
   });
 
   router.get('/schemas', async (ctx) => {
-    const symbols = getGenerator().getMainFileSymbols(originGetGenerator.getProgram());
-    ctx.body = getGenerator().getSchemaForSymbols(symbols);
+    ctx.body = mocker.generateSchema();
   });
 
   router.get('/symbols', async (ctx) => {
-    ctx.body = getGenerator().getMainFileSymbols(originGetGenerator.getProgram());
+    ctx.body = mocker.generator.getMainFileSymbols(mocker.program);
   });
 
   app
