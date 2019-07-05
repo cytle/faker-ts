@@ -5,41 +5,38 @@ declare module 'json-schema-faker' {
 
   function json_schema_faker(schema: any, refs: any, cwd: any): any;
   namespace json_schema_faker {
-      const version: string;
+    const version: string;
 
-      function define(name: any, cb: any): any;
+    function define(name: any, cb: any): any;
 
-      function extend(name: any, cb: any): any;
+    function extend(name: any, cb: any): any;
 
-      function format(nameOrFormatMap: any, callback: any): any;
+    function format(nameOrFormatMap: any, callback: any): any;
 
-      function generate(schema: any, refs: any): any;
+    function generate(schema: any, refs: any): any;
 
-      function locate(name: any): any;
+    function locate(name: any): any;
 
-      function option(nameOrOptionMap: any, optionalValue?: any): any;
+    function option(nameOrOptionMap: any, optionalValue?: any): any;
 
-      function reset(name: any): any;
+    function reset(name: any): any;
 
-      function resolve(schema: any, refs?: any, cwd?: any): Promise<any>;
+    function resolve(schema: any, refs?: any, cwd?: any): Promise<any>;
 
-      namespace option {
-          function getDefaults(): any;
+    namespace option {
+      function getDefaults(): any;
+    }
 
-      }
+    namespace random {
+      function date(step: any): any;
 
-      namespace random {
-          function date(step: any): any;
+      function number(min: any, max: any, defMin: any, defMax: any, hasPrecision: any): any;
 
-          function number(min: any, max: any, defMin: any, defMax: any, hasPrecision: any): any;
+      function pick(collection: any): any;
 
-          function pick(collection: any): any;
+      function randexp(value: any): any;
 
-          function randexp(value: any): any;
-
-          function shuffle(collection: any): any;
-
-      }
-
+      function shuffle(collection: any): any;
+    }
   }
 }

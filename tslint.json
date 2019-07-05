@@ -1,13 +1,13 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
-    "rules": {
-      "quotemark": [true, "single", "jsx-double"],
-      "no-console": [false],
-      "object-literal-sort-keys": false
-    },
-    "rulesDirectory": []
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "quotemark": [true, "single", "jsx-double"],
+    "no-console": [false],
+    "object-literal-sort-keys": false
+  },
+  "rulesDirectory": []
 }
