@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import program from 'commander';
 import { createServer, tsMock } from '../json-schema-mock';
 
