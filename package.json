@@ -1,13 +1,13 @@
 {
-  "name": "ts-faker",
-  "main": "dist/ts-faker.js",
-  "typings": "dist/ts-faker.d.ts",
-  "bin": "dist/bin/ts-faker.js",
+  "name": "faker-ts",
+  "main": "dist/faker-ts.js",
+  "typings": "dist/faker-ts.d.ts",
+  "bin": "dist/bin/faker-ts.js",
   "scripts": {
     "prepublishOnly": "npm run build",
     "test": "npm run build && mocha -t 5000 --require source-map-support/register dist/tests",
     "debug": "node --inspect-brk -r ts-node/register tests/server.ts",
-    "run": "ts-node ts-faker.ts",
+    "run": "ts-node faker-ts.ts",
     "serve": "ts-node tests/server.ts",
     "build": "tsc -p .",
     "lint": "tslint --project tsconfig.json -c tslint.json --exclude '**/*.d.ts'"

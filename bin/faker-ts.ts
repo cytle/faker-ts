@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import program from 'commander';
-import { tsMock } from '../ts-faker';
+import { tsMock } from '../faker-ts';
 
 program
   .version('0.0.1');
