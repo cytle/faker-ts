@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import * as ts from 'typescript';
-import { tsMockService } from './tsMock';
+import { tsMockService } from '../lib/tsMock';
 
 export function createServer(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
   const app = new Koa();

@@ -24,3 +24,8 @@ export interface IProps {
    */
   type: 'a' | '12' | Type;
 }
+
+export interface IUser {
+  id: string;
+  nickname: string;
+}

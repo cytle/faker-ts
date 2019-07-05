@@ -18,6 +18,7 @@
     "commander": "^2.20.0",
     "faker": "^4.1.0",
     "json-schema-faker": "^0.5.0-rc17",
+    "typescript": "^3.5.2",
     "typescript-json-schema": "^0.38.3"
   },
   "devDependencies": {
@@ -31,8 +32,7 @@
     "koa-router": "^7.4.0",
     "mocha": "^6.1.4",
     "ts-node": "^8.3.0",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.2"
+    "tslint": "^5.18.0"
   },
   "version": "0.0.1-rc1.1"
 }
