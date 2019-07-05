@@ -1,11 +1,11 @@
-# json-schema-mock.ts
+# ts-faker
 
 Mock data from TypeScript
 
 ## Usage
 
 ``` ts
-import { tsMock, tsMockService } from 'json-schema-mock.ts';
+import { tsMock, tsMockService } from 'ts-faker';
 
 const files = ['foo.ts'];
 // foo.ts
@@ -21,14 +21,14 @@ const mocker = tsMockService(files); // see more Mock Server with Koa
 ### CLI
 
 ``` shell
-yarn global add json-schema-mock.ts
+yarn global add ts-faker
 ```
 
 e.g.
 
 ``` shell
 echo "interface IFoo { title: string; }" > foo.ts
-tsmock foo.ts IFoo # Mock data
+ts-faker foo.ts IFoo # Mock data
 ```
 
 ### Mock Server with Koa
@@ -37,7 +37,7 @@ tsmock foo.ts IFoo # Mock data
 import Koa from 'koa';
 import Router from 'koa-router';
 import * as ts from 'typescript';
-import { tsMockService } from '../lib/tsMock';
+import { tsMockService } from 'ts-faker';
 
 export function createServer(files: string[], jsonCompilerOptions?: ts.CompilerOptions, basePath?: string) {
   const app = new Koa();
